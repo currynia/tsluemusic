@@ -1,6 +1,6 @@
 import express from 'express'
 import path from 'path'
-import { getAllMusicFiles } from './library/access.js'
+import { apiRouter } from './routes/api.js'
 
 export const startServer = () => {
   const server = express()
@@ -11,9 +11,9 @@ export const startServer = () => {
   server.get('/', (req, res) => {
     res.sendFile(path.join('dist/client', 'index.html'))
   })
-  server.get('/api/getAllMusicFileList', async (req, res) => {
-    res.send(await getAllMusicFiles())
-  })
+
+  server.use('/api', apiRouter)
+
   server.listen(port, () => {
     console.log(`App listening on port http://127.0.0.1:${port}`)
   })

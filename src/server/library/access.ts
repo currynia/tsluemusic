@@ -1,5 +1,4 @@
-import fs, { Dirent } from 'fs'
-
+import fs, { access, Dirent } from 'fs'
 import path from 'path'
 import NodeID3 from 'node-id3'
 import { writeMusicTags } from './db.js'
@@ -16,19 +15,28 @@ function readTags(f: string[], fp: string): Promise<MusicObj>[] {
 }
 
 const getMusicFolders = async () => {
+  // get first top level folder
   return (await fs.promises.readdir(directory, { withFileTypes: true })).filter(
     (f) => !f.isFile() && !f.name.startsWith('.'),
   )
 }
 
 const getMusicFileListFromDirectory = async (f: Dirent) => {
+  //get file list from specified directory
   return (await fs.promises.readdir(path.join(directory, f.name))).filter((g) =>
     extensions.includes(path.extname(g)),
   )
 }
 
 export const getAllMusicFiles = async () => {
-  return (await getMusicFolders()).map(async (f) => ({ f: await getMusicFileListFromDirectory(f) }))
+  //get all music files in the directory folder
+  const folders = await getMusicFolders()
+
+  const resultEntries = await Promise.all(
+    folders.map(async (folder) => [folder.name, await getMusicFileListFromDirectory(folder)]),
+  )
+
+  return Object.fromEntries(resultEntries)
 }
 async function parseDirWithTags() {
   const dir = await getMusicFolders()

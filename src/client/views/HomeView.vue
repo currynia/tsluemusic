@@ -5,11 +5,11 @@ import PlayList from '../components/PlayList.vue'
 </script>
 
 <template>
-  <div class="flex flex-col-reverse h-full w-full">
-    <PlayerControls class="w-full" />
-    <div class="flex self-end h-full w-full justify-end">
-      <NowPlaying class="grow-3" />
-      <PlayList class="grow-7" />
+  <div class="flex flex-col-reverse h-full w-full max-h-full">
+    <PlayerControls class="h-fit" />
+    <div class="flex grow overflow-auto">
+      <NowPlaying class="w-1/4" />
+      <PlayList class="w-3/4" />
     </div>
   </div>
 </template>

@@ -25,9 +25,13 @@ export const dbManager = (function () {
 })()
 
 export async function writeMusicTags(musictag: MusicObj[]) {
-  const db = await dbManager.getDB()
-  const collection = db.collection<MusicObj>('musicCollection')
-  collection.insertMany(musictag)
+  try {
+    const db = await dbManager.getDB()
+    const collection = db.collection<MusicObj>('musicCollection')
+    collection.insertMany(musictag)
+  } catch (err) {
+    console.error(err)
+  }
 }
 
 export async function dropDatabase() {
