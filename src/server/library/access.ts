@@ -4,6 +4,7 @@ import path from 'path'
 import { writeMusicTags } from './db.js'
 import { MusicObj } from './MusicObj.js'
 import { IAudioMetadata, parseFile } from 'music-metadata'
+import * as mime from 'mime-types'
 
 const directory: string = process.env.MUSIC_DIRECTORY!
 const extensions = ['.mp3', '.flac', '.wav', '.ogg']
@@ -48,4 +49,12 @@ async function parseDirWithTags() {
 
 export async function writeMusicTagsToDB() {
   writeMusicTags(await parseDirWithTags())
+}
+
+export function getMusicFileBuffer(fileName: string, fp: string) {
+  return fs.promises.readFile(path.join(directory, fp, fileName))
+}
+
+export function getMimeType(fileName: string, fp: string) {
+  return mime.lookup(path.join(directory, fp, fileName)) || 'audio/mpeg'
 }
