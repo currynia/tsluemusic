@@ -11,5 +11,6 @@ const main = () => {
   startUp()
   startServer()
 }
+
 await dropDatabase()
 main()

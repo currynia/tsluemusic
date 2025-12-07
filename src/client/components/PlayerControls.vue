@@ -1,7 +1,7 @@
 <script lang="ts"></script>
 
 <template>
-  <div class="flex bg-light-primary flex-col">
+  <div class="flex bg-primary flex-col">
     <ul class="menu menu-horizontal rounded-box self-center p-1">
       <li>
         <svg

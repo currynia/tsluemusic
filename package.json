@@ -20,7 +20,7 @@
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "mongodb": "^7.0.0",
-    "node-id3": "^0.2.9",
+    "music-metadata": "^11.10.3",
     "vue": "^3.5.25",
     "vue-router": "^4.6.3"
   },

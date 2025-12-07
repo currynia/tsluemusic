@@ -1,54 +1,83 @@
 @import 'tailwindcss';
-@plugin "daisyui";
+@plugin "daisyui" {
+  themes: false;
+}
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+@plugin "daisyui/theme" {
+  name: 'light';
+  default: true;
+  prefersdark: false;
+  color-scheme: 'light';
+  --color-base-100: oklch(98% 0.002 247.839);
+  --color-base-200: oklch(98% 0 0);
+  --color-base-300: oklch(95% 0 0);
+  --color-base-content: oklch(21% 0.006 285.885);
+  --color-primary: oklch(75% 0.183 55.934);
+  --color-primary-content: oklch(93% 0.034 272.788);
+  --color-secondary: oklch(65% 0.241 354.308);
+  --color-secondary-content: oklch(94% 0.028 342.258);
+  --color-accent: oklch(77% 0.152 181.912);
+  --color-accent-content: oklch(38% 0.063 188.416);
+  --color-neutral: oklch(14% 0.005 285.823);
+  --color-neutral-content: oklch(92% 0.004 286.32);
+  --color-info: oklch(74% 0.16 232.661);
+  --color-info-content: oklch(29% 0.066 243.157);
+  --color-success: oklch(76% 0.177 163.223);
+  --color-success-content: oklch(37% 0.077 168.94);
+  --color-warning: oklch(82% 0.189 84.429);
+  --color-warning-content: oklch(41% 0.112 45.904);
+  --color-error: oklch(71% 0.194 13.428);
+  --color-error-content: oklch(27% 0.105 12.094);
+  --radius-selector: 0.5rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.5rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 1;
+  --noise: 0;
+}
+
+@plugin "daisyui/theme" {
+  name: 'dark';
+  default: false;
+  prefersdark: false;
+  color-scheme: 'dark';
+  --color-base-100: oklch(25.33% 0.016 252.42);
+  --color-base-200: oklch(23.26% 0.014 253.1);
+  --color-base-300: oklch(21.15% 0.012 254.09);
+  --color-base-content: oklch(97.807% 0.029 256.847);
+  --color-primary: oklch(75% 0.183 55.934);
+  --color-primary-content: oklch(96% 0.018 272.314);
+  --color-secondary: oklch(65% 0.241 354.308);
+  --color-secondary-content: oklch(94% 0.028 342.258);
+  --color-accent: oklch(77% 0.152 181.912);
+  --color-accent-content: oklch(38% 0.063 188.416);
+  --color-neutral: oklch(14% 0.005 285.823);
+  --color-neutral-content: oklch(92% 0.004 286.32);
+  --color-info: oklch(74% 0.16 232.661);
+  --color-info-content: oklch(29% 0.066 243.157);
+  --color-success: oklch(76% 0.177 163.223);
+  --color-success-content: oklch(37% 0.077 168.94);
+  --color-warning: oklch(82% 0.189 84.429);
+  --color-warning-content: oklch(41% 0.112 45.904);
+  --color-error: oklch(71% 0.194 13.428);
+  --color-error-content: oklch(27% 0.105 12.094);
+  --radius-selector: 0.5rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.5rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 1;
+  --noise: 0;
+}
 
 body,
 #app {
   height: 100vh;
   width: 100vw;
   padding: 0 0 0 0;
-  background-color: var(--color-light-background);
-}
-
-@theme {
-  /* Light Theme */
-  --color-light-background: #faffff;
-  --color-light-background-secondary: #f8fafc;
-  --color-light-background-muted: #f1f5f9;
-  --color-light-foreground: #1e293b;
-  --color-light-foreground-secondary: #334155;
-  --color-light-foreground-muted: #64748b;
-  --color-light-card: #faffff;
-  --color-light-card-foreground: #1e293b;
-  --color-light-border: #e2e8f0;
-  --color-light-input: #f1f5f9;
-  --color-light-ring: #da751f;
-  --color-light-primary: #da751f;
-  --color-light-primary-foreground: #ffffff;
-  --color-light-secondary: #f1f5f9;
-  --color-light-secondary-foreground: #1e293b;
-  --color-light-success: #10b981;
-  --color-light-warning: #f2e21f;
-  --color-light-error: #ff3636;
-  --color-light-info: #da751f;
-
-  /* Dark Theme */
-  --color-dark-background: #0f172a;
-  --color-dark-background-secondary: #1e293b;
-  --color-dark-background-muted: #334155;
-  --color-dark-foreground: #f1f5f9;
-  --color-dark-foreground-secondary: #e2e8f0;
-  --color-dark-foreground-muted: #94a3b8;
-  --color-dark-card: #1e293b;
-  --color-dark-card-foreground: #f1f5f9;
-  --color-dark-border: #334155;
-  --color-dark-input: #334155;
-  --color-dark-ring: #60a5fa;
-  --color-dark-primary: #60a5fa;
-  --color-dark-primary-foreground: #1e293b;
-  --color-dark-secondary: #334155;
-  --color-dark-secondary-foreground: #f1f5f9;
-  --color-dark-success: #34d399;
-  --color-dark-warning: #fbbf24;
-  --color-dark-error: #f87171;
-  --color-dark-info: #60a5fa;
+  background-color: var(--color-base-100);
 }

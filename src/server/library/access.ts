@@ -1,19 +1,27 @@
-import fs, { access, Dirent } from 'fs'
+import fs, { Dirent } from 'fs'
 import path from 'path'
-import NodeID3 from 'node-id3'
+
 import { writeMusicTags } from './db.js'
 import { MusicObj } from './MusicObj.js'
+import { IAudioMetadata, parseFile } from 'music-metadata'
 
 const directory: string = process.env.MUSIC_DIRECTORY!
 const extensions = ['.mp3', '.flac', '.wav', '.ogg']
 
 function readTags(f: string[], fp: string): Promise<MusicObj>[] {
-  return f.map(async (m) => ({
-    _id: m,
-    tags: await NodeID3.Promise.read(path.join(directory, fp, m)),
-  }))
+  return f.map(async (m) => {
+    const tags = await readTag(m, fp)
+    return {
+      _id: tags.common.title!,
+      tags: tags.common,
+      path: fp,
+      fileName: m,
+    }
+  })
 }
-
+const readTag = (f: string, fp: string): Promise<IAudioMetadata> => {
+  return parseFile(path.join(directory, fp, f))
+}
 const getMusicFolders = async () => {
   // get first top level folder
   return (await fs.promises.readdir(directory, { withFileTypes: true })).filter(
@@ -28,16 +36,6 @@ const getMusicFileListFromDirectory = async (f: Dirent) => {
   )
 }
 
-export const getAllMusicFiles = async () => {
-  //get all music files in the directory folder
-  const folders = await getMusicFolders()
-
-  const resultEntries = await Promise.all(
-    folders.map(async (folder) => [folder.name, await getMusicFileListFromDirectory(folder)]),
-  )
-
-  return Object.fromEntries(resultEntries)
-}
 async function parseDirWithTags() {
   const dir = await getMusicFolders()
   const tagPromise = dir.map(async (f) => {

@@ -1,6 +1,8 @@
-import { Tags } from 'node-id3'
+import { ICommonTagsResult } from 'music-metadata'
 
 export interface MusicObj {
   _id: string
-  tags: Tags
+  tags: ICommonTagsResult
+  path: string
+  fileName: string
 }
