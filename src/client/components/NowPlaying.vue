@@ -22,10 +22,10 @@ const setNowPlaying = async (fileName: string, fp: string) => {
 }
 
 const audioRef = ref<HTMLAudioElement | null>(null)
-
+audioRef.value?.addEventListener('play', () => {})
 defineExpose({ setNowPlaying })
 </script>
 <template>
   <a class="bg-black">test placeholder</a>
-  <audio ref="audioRef" controls></audio>
+  <audio class="hidden" ref="audioRef" autoplay></audio>
 </template>
