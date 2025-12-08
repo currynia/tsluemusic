@@ -12,7 +12,7 @@ const playerControls = ref<InstanceType<typeof PlayerControls>>()
   <div class="flex flex-col-reverse h-full w-full max-h-full">
     <PlayerControls
       ref="playerControls"
-      class="h-fit"
+      class="h-fit bg-base-300"
       @pause-audio="nowPlaying?.pauseAudio"
       @play-audio="nowPlaying?.playAudio"
     />

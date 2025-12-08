@@ -23,31 +23,35 @@ defineExpose({ setMaxLength, setCurrentValue })
 </script>
 
 <template>
-  <div class="flex bg-primary flex-col">
-    <ul class="menu menu-horizontal rounded-box self-center p-1">
-      <li id="pause" @click="$emit('pauseAudio')">
-        <PauseIcon />
-      </li>
+  <div>
+    <div class="p-2">
+      <input
+        min="0"
+        :max="MAX_VALUE"
+        :value="currentValue"
+        type="range"
+        class="range range-primary bg-linear-to-r from-primary/30 to-primary/30 w-full"
+      />
+    </div>
 
-      <li id="play" @click="$emit('playAudio')">
-        <PlayIcon />
-      </li>
+    <div class="flex flex-col">
+      <ul class="menu menu-horizontal rounded-box self-center p-1">
+        <li id="pause" @click="$emit('pauseAudio')">
+          <PauseIcon class="text-primary" />
+        </li>
 
-      <li id="back">
-        <BackIcon />
-      </li>
+        <li id="play" @click="$emit('playAudio')">
+          <PlayIcon class="text-primary" />
+        </li>
 
-      <li id="forward">
-        <ForwardIcon />
-      </li>
-    </ul>
+        <li id="back">
+          <BackIcon class="text-primary" />
+        </li>
+
+        <li id="forward">
+          <ForwardIcon class="text-primary" />
+        </li>
+      </ul>
+    </div>
   </div>
-
-  <input
-    min="0"
-    :max="MAX_VALUE"
-    :value="currentValue"
-    type="range"
-    class="range range-secondary w-full"
-  />
 </template>
