@@ -3,6 +3,8 @@ import { ref } from 'vue'
 import { constants } from '../../constants'
 import { fetchData } from '../utils'
 
+const audioRef = ref<HTMLAudioElement | null>(null)
+
 const setNowPlaying = async (fileName: string, fp: string) => {
   const params = new URLSearchParams()
   params.append('fileName', fileName)
@@ -16,16 +18,25 @@ const setNowPlaying = async (fileName: string, fp: string) => {
 
   const url = URL.createObjectURL(blob)
   if (audioRef.value) {
+    URL.revokeObjectURL(audioRef.value.src)
     audioRef.value.src = url
     audioRef.value.play()
   }
 }
 
-const audioRef = ref<HTMLAudioElement | null>(null)
+const pauseAudio = () => {
+  audioRef.value?.pause()
+}
+
+const playAudio = () => {
+  audioRef.value?.play()
+}
+
 audioRef.value?.addEventListener('play', () => {})
-defineExpose({ setNowPlaying })
+
+defineExpose({ setNowPlaying, pauseAudio, playAudio })
 </script>
 <template>
   <a class="bg-black">test placeholder</a>
-  <audio class="hidden" ref="audioRef" autoplay></audio>
+  <audio class="hidden" ref="audioRef"></audio>
 </template>

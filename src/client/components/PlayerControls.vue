@@ -8,11 +8,11 @@ import ForwardIcon from './icons/ForwardIcon.vue'
 <template>
   <div class="flex bg-primary flex-col">
     <ul class="menu menu-horizontal rounded-box self-center p-1">
-      <li id="pause">
+      <li id="pause" @click="$emit('pauseAudio')">
         <PauseIcon />
       </li>
 
-      <li id="play">
+      <li id="play" @click="$emit('playAudio')">
         <PlayIcon />
       </li>
 
