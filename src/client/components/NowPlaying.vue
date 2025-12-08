@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { constants } from '../../constants'
 import { fetchData } from '../utils'
 
 const audioRef = ref<HTMLAudioElement | null>(null)
-
+const emit = defineEmits<{
+  timeUpdate: [data: number]
+  setMaxLength: [data: number]
+}>()
 const setNowPlaying = async (fileName: string, fp: string) => {
   const params = new URLSearchParams()
   params.append('fileName', fileName)
@@ -20,6 +23,7 @@ const setNowPlaying = async (fileName: string, fp: string) => {
   if (audioRef.value) {
     URL.revokeObjectURL(audioRef.value.src)
     audioRef.value.src = url
+
     audioRef.value.play()
   }
 }
@@ -32,7 +36,14 @@ const playAudio = () => {
   audioRef.value?.play()
 }
 
-audioRef.value?.addEventListener('play', () => {})
+onMounted(() => {
+  audioRef.value?.addEventListener('timeupdate', (_event) => {
+    emit('timeUpdate', audioRef.value!.currentTime)
+  })
+  audioRef.value?.addEventListener('loadedmetadata', () => {
+    emit('setMaxLength', audioRef.value!.duration)
+  })
+})
 
 defineExpose({ setNowPlaying, pauseAudio, playAudio })
 </script>
