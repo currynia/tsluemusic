@@ -75,6 +75,13 @@ onMounted(() => {
 defineExpose({ setNowPlaying, pauseAudio, playAudio })
 </script>
 <template>
-  <img class="object-contain w-full h-full" ref="imgRef" alt="Image could not be displayed" />
+  <div>
+    <img
+      class="object-contain aspect-square w-full h-full"
+      ref="imgRef"
+      alt="Image could not be displayed"
+    />
+  </div>
+
   <audio class="hidden" ref="audioRef"></audio>
 </template>
