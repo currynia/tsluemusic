@@ -11,7 +11,7 @@ export default defineConfig({
   build: { outDir: '../../dist/client' },
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src/client', import.meta.url)),
+      '@': fileURLToPath(new URL('./src/client ', import.meta.url)),
     },
   },
 })

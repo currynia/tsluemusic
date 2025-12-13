@@ -26,7 +26,7 @@ onMounted(async () => {
       <input type="radio" name="my_tabs_6" class="tab" :aria-label="p.path" />
       <ul class="border-base-300 bg-base-100 tab-content p-6 overflow-auto">
         <li
-          @click="$emit('playNow', song.fileName, p.path)"
+          @click="$emit('playNow', song.fileName, p.path, song.name)"
           v-for="song in p.songs"
           :key="song.name"
         >

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import NowPlaying from '../components/NowPlaying.vue'
+import NowPlaying from '../components/nowplaying/NowPlaying.vue'
 import PlayerControls from '../components/PlayerControls.vue'
 import PlayList from '../components/PlayList.vue'
 
