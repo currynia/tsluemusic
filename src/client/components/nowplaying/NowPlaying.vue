@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { onMounted, ref, type Ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { type ICommonTagsResult } from 'music-metadata'
 import { lazyGetAudioBufferMimeType, createBlob, getTags, base64ToArrayBuffer } from './helpers'
+import MarqueeComponent from './MarqueeComponent.vue'
 
 const audioRef = ref<HTMLAudioElement>()
 const tagRef = ref<ICommonTagsResult>()
 const imgRef = ref<HTMLImageElement>()
-const fallbackArrayBuffer = new ArrayBuffer()
+const title = ref('')
+const artist = ref('')
 
 const emit = defineEmits<{
   timeUpdate: [data: number]
@@ -23,6 +25,17 @@ const setImage = () => {
     imgRef.value.src = URL.createObjectURL(blob)
   }
 }
+const setTitle = () => {
+  title.value = tagRef.value?.title || ''
+}
+const setArtist = () => {
+  artist.value = tagRef.value?.artist || ''
+}
+const setMetaDataFields = () => {
+  setImage()
+  setTitle()
+  setArtist()
+}
 const setNowPlaying = async (fileName: string, fp: string, name: string) => {
   tagRef.value = await getTags(name)
   const audio = await (await lazyGetAudioBufferMimeType(fileName, fp))()
@@ -32,7 +45,7 @@ const setNowPlaying = async (fileName: string, fp: string, name: string) => {
   if (audioElement) {
     URL.revokeObjectURL(audioElement.src)
     audioElement.src = url
-    setImage()
+    setMetaDataFields()
     audioElement.play()
   }
 }
@@ -58,13 +71,22 @@ defineExpose({ setNowPlaying, pauseAudio, playAudio })
 </script>
 
 <template>
-  <div>
+  <div class="flex">
     <img
-      class="object-contain aspect-square w-full h-full"
+      class="object-cover aspect-square h-full"
       ref="imgRef"
       alt="Image could not be displayed"
     />
-  </div>
+    <div class="block overflow-auto ml-1.5 mr-1.5">
+      <MarqueeComponent>
+        <p class="font-bold">{{ title }}</p>
+      </MarqueeComponent>
 
-  <audio class="hidden" ref="audioRef"></audio>
+      <MarqueeComponent>
+        <p>{{ artist }}</p>
+      </MarqueeComponent>
+    </div>
+
+    <audio class="hidden" ref="audioRef"></audio>
+  </div>
 </template>

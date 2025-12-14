@@ -1,4 +1,4 @@
-import { fetchData } from '@/utils'
+import { fetchData } from '@/components/domUtils'
 import { constants } from '../../../constants'
 
 export const getTags = async (id: string) => {

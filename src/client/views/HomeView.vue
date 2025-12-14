@@ -15,7 +15,7 @@ const playerControls = ref<InstanceType<typeof PlayerControls>>()
     </div>
     <div class="bg-base-300 grid grid-cols-6 grid-rows-1 w-full h-1/8" ref="d">
       <NowPlaying
-        class=""
+        class="col-span-2"
         ref="nowPlaying"
         @time-update="playerControls?.setCurrentValue"
         @set-max-length="playerControls?.setMaxLength"

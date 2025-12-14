@@ -11,3 +11,10 @@ export async function fetchData(url: string) {
     throw error
   }
 }
+
+export const isElementOverflowing = (element: HTMLElement) => {
+  const overflowX = element.offsetWidth < element.scrollWidth,
+    overflowY = element.offsetHeight < element.scrollHeight
+
+  return overflowX || overflowY
+}
