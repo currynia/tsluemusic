@@ -29,7 +29,7 @@ defineExpose({ setMaxLength, setCurrentValue })
       :max="MAX_VALUE"
       :value="currentValue"
       type="range"
-      class="range range-primary w-full"
+      class="range range-primary range-xs w-full"
     />
 
     <ul

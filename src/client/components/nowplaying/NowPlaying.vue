@@ -77,7 +77,7 @@ defineExpose({ setNowPlaying, pauseAudio, playAudio })
       ref="imgRef"
       alt="Image could not be displayed"
     />
-    <div class="block overflow-auto ml-1.5 mr-1.5">
+    <div class="block overflow-auto mt-1.5 ml-1.5 mr-1.5">
       <MarqueeComponent>
         <p class="font-bold">{{ title }}</p>
       </MarqueeComponent>
