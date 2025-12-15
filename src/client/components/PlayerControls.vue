@@ -29,26 +29,26 @@ defineExpose({ setMaxLength, setCurrentValue })
       :max="MAX_VALUE"
       :value="currentValue"
       type="range"
-      class="range range-primary range-xs w-full"
+      class="range range-primary [--range-fill:0] range-xs w-full"
     />
 
     <ul
       class="menu menu-horizontal self-center rounded-box grid p-0 grid-rows-1 grid-cols-4 w-9/20 min-h-0"
     >
       <li id="pause" @click="$emit('pauseAudio')">
-        <PauseIcon class="text-primary" />
+        <PauseIcon class="text-base-content" />
       </li>
 
       <li id="play" @click="$emit('playAudio')">
-        <PlayIcon class="text-primary" />
+        <PlayIcon class="text-base-content" />
       </li>
 
       <li id="back">
-        <BackIcon class="text-primary" />
+        <BackIcon class="text-base-content" />
       </li>
 
       <li id="forward">
-        <ForwardIcon class="text-primary" />
+        <ForwardIcon class="text-base-content" />
       </li>
     </ul>
   </div>
