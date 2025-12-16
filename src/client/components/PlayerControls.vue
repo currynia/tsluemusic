@@ -45,7 +45,7 @@ defineEmits<{ pauseAudio: [void]; playAudio: [void]; back: [void]; forward: [voi
       </li>
 
       <li id="back">
-        <BackIcon class="text-base-content" />
+        <BackIcon class="text-base-content" @click="$emit('back')" />
       </li>
 
       <li id="forward">

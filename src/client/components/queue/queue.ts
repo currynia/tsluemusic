@@ -16,7 +16,7 @@ class Queue<T> {
     return this.queue[this.cur]
   }
 
-  get current() {
+  get head() {
     return this.queue[this.cur]
   }
 
@@ -37,12 +37,18 @@ class Queue<T> {
 
   popHead() {
     const head = this.queue[this.cur]
-    this.incrCur()
+    this.cur++
     return head
   }
 
-  incrCur() {
-    this.cur++
+  get prevHead() {
+    this.cur--
+    if (this.cur < 0) {
+      this.cur = 0
+      return null
+    }
+    const head = this.queue[this.cur - 1]
+    return head
   }
 
   updateQueueView() {

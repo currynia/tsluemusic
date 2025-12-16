@@ -8,12 +8,14 @@ import Queue from '@/components/queue/queue'
 import QueueComponent from '@/components/queue/SongQueueComponent.vue'
 import type { SongEntity } from '@/entities/SongEntity'
 
+const AUDIO_BACK_THRESHOLD = 3
 const nowPlaying = ref<InstanceType<typeof NowPlaying>>()
 const playerControls = ref<InstanceType<typeof PlayerControls>>()
 const playListQueue = new Queue<SongEntity>()
+
 const onClickPlaylistCallback = (...q: SongEntity[]) => {
   playListQueue.queue = q
-  playListQueue.incrCur()
+  playListQueue.cur = 1
   playListQueue.updateQueueView()
 }
 
@@ -23,6 +25,32 @@ const playNextInQueue = () => {
 
   if (head?.fileName && head?.name) {
     nowPlaying?.value?.setNowPlaying(head.fileName, undefined, head.name)
+  }
+}
+
+const playPrevInQueue = () => {
+  const prevHead = playListQueue.prevHead
+  if (prevHead == null) {
+    restartAudio()
+    return
+  }
+  playListQueue.updateQueueView()
+  if (prevHead?.fileName && prevHead?.name) {
+    nowPlaying?.value?.setNowPlaying(prevHead.fileName, undefined, prevHead.name)
+  }
+}
+
+const restartAudio = () => {
+  nowPlaying.value?.setAudioPosition(0)
+}
+
+const onBackEmit = () => {
+  if (nowPlaying.value) {
+    if (nowPlaying.value.getAudioCurrentPosition() < AUDIO_BACK_THRESHOLD) {
+      playPrevInQueue()
+    } else {
+      restartAudio()
+    }
   }
 }
 </script>
@@ -51,6 +79,7 @@ const playNextInQueue = () => {
           @pause-audio="nowPlaying?.pauseAudio"
           @play-audio="nowPlaying?.playAudio"
           @forward="playNextInQueue"
+          @back="onBackEmit"
         />
       </div>
     </div>

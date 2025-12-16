@@ -57,6 +57,14 @@ const playAudio = () => {
   audioRef.value?.play()
 }
 
+const getAudioCurrentPosition = () => {
+  return audioRef.value?.currentTime || 0
+}
+
+const setAudioPosition = (d: number) => {
+  if (audioRef.value) audioRef.value.currentTime = d
+}
+
 onMounted(() => {
   audioRef.value?.addEventListener('timeupdate', () => {
     emit('timeUpdate', audioRef.value!.currentTime)
@@ -65,11 +73,12 @@ onMounted(() => {
     emit('setMaxLength', audioRef.value!.duration)
   })
   audioRef.value?.addEventListener('ended', () => {
+    console.log('test')
     emit('songEnded')
   })
 })
 
-defineExpose({ setNowPlaying, pauseAudio, playAudio })
+defineExpose({ setNowPlaying, pauseAudio, playAudio, getAudioCurrentPosition, setAudioPosition })
 </script>
 
 <template>
