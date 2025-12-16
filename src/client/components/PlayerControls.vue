@@ -20,6 +20,7 @@ const setMaxLength = (val: number) => {
   maxLength.value = val.toString()
 }
 defineExpose({ setMaxLength, setCurrentValue })
+defineEmits<{ pauseAudio: [void]; playAudio: [void]; back: [void]; forward: [void] }>()
 </script>
 
 <template>
@@ -48,7 +49,7 @@ defineExpose({ setMaxLength, setCurrentValue })
       </li>
 
       <li id="forward">
-        <ForwardIcon class="text-base-content" />
+        <ForwardIcon class="text-base-content" @click="$emit('forward')" />
       </li>
     </ul>
   </div>

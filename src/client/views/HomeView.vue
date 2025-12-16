@@ -17,10 +17,10 @@ const onClickPlaylistCallback = (...q: SongEntity[]) => {
   playListQueue.updateQueueView()
 }
 
-const onEndedEmit = () => {
+const playNextInQueue = () => {
   const head = playListQueue.popHead()
   playListQueue.updateQueueView()
-  console.log(head)
+
   if (head?.fileName && head?.name) {
     nowPlaying?.value?.setNowPlaying(head.fileName, undefined, head.name)
   }
@@ -43,13 +43,14 @@ const onEndedEmit = () => {
           ref="nowPlaying"
           @time-update="playerControls?.setCurrentValue"
           @set-max-length="playerControls?.setMaxLength"
-          @song-ended="onEndedEmit"
+          @song-ended="playNextInQueue"
         />
         <PlayerControls
           ref="playerControls"
           class="col-start-3 col-end-5"
           @pause-audio="nowPlaying?.pauseAudio"
           @play-audio="nowPlaying?.playAudio"
+          @forward="playNextInQueue"
         />
       </div>
     </div>

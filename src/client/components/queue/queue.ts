@@ -38,7 +38,6 @@ class Queue<T> {
   popHead() {
     const head = this.queue[this.cur]
     this.incrCur()
-
     return head
   }
 
