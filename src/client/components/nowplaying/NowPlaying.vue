@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { type ICommonTagsResult } from 'music-metadata'
-import { lazyGetAudioBufferMimeType, createBlob, getTags, base64ToArrayBuffer } from './helpers'
+import { lazyGetAudioBufferMimeType, createBlob, getTags, buildBase64ImgSrc } from './helpers'
 import MarqueeComponent from './MarqueeComponent.vue'
 
 const audioRef = ref<HTMLAudioElement>()
@@ -11,18 +11,16 @@ const title = ref('')
 const artist = ref('')
 
 const emit = defineEmits<{
-  timeUpdate: [data: number]
-  setMaxLength: [data: number]
+  timeUpdate: [number]
+  setMaxLength: [number]
+  songEnded: [void]
 }>()
 
 const setImage = () => {
-  const imgBuffer = base64ToArrayBuffer(tagRef.value?.picture?.[0]?.data.toString() || '')
+  const imgB64 = tagRef.value?.picture?.[0]?.data.toString() || ''
   const mimeType = tagRef.value?.picture?.[0]?.format || 'image/jpeg'
-  const blob = createBlob(imgBuffer as BlobPart, mimeType)
-
   if (imgRef.value) {
-    URL.revokeObjectURL(imgRef.value.src)
-    imgRef.value.src = URL.createObjectURL(blob)
+    imgRef.value.src = buildBase64ImgSrc(imgB64, mimeType)
   }
 }
 const setTitle = () => {
@@ -36,15 +34,16 @@ const setMetaDataFields = () => {
   setTitle()
   setArtist()
 }
-const setNowPlaying = async (fileName: string, fp: string, name: string) => {
+const setNowPlaying = async (fileName: string, fp: string | undefined, name: string) => {
   tagRef.value = await getTags(name)
   const audio = await (await lazyGetAudioBufferMimeType(fileName, fp))()
   const blob = createBlob(audio.buffer, audio.mimeType)
-  const url = URL.createObjectURL(blob)
+  const audioSrc = URL.createObjectURL(blob)
+
   const audioElement = audioRef.value
   if (audioElement) {
     URL.revokeObjectURL(audioElement.src)
-    audioElement.src = url
+    audioElement.src = audioSrc
     setMetaDataFields()
     audioElement.play()
   }
@@ -64,6 +63,9 @@ onMounted(() => {
   })
   audioRef.value?.addEventListener('loadedmetadata', () => {
     emit('setMaxLength', audioRef.value!.duration)
+  })
+  audioRef.value?.addEventListener('ended', () => {
+    emit('songEnded')
   })
 })
 

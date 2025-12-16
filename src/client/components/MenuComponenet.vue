@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="p-3 shadow-2xl">
+  <div class="p-3 shadow-2xl block">
     <ul class="menu bg-base-200 rounded-box">
       <li>
         <a>

@@ -1,6 +1,6 @@
 import express from 'express'
 import { constants } from '../../constants.js'
-import { getAllMusicFiles, getTagsByName } from '../library/db.js'
+import { getAllMusicFiles, getMusicFilePath, getTagsByName } from '../library/db.js'
 import { getMimeType, getMusicFileBuffer } from '../library/access.js'
 
 const getPlaylistApi = express
@@ -13,15 +13,20 @@ const getMusicFileBufferApi = express
   .Router()
   .get(`/${constants.paths.apiGetMusicFileBuffer}`, async (req, res) => {
     try {
-      const fp = req.query.fp!.toString()
       const fileName = req.query.fileName!.toString()
+      const fp = req.query.fp?.toString() || (await getMusicFilePath(fileName))
 
-      res.type(getMimeType(fileName, fp)).send(await getMusicFileBuffer(fileName, fp))
+      if (fp) {
+        res.type(getMimeType(fileName, fp)).send(await getMusicFileBuffer(fileName, fp))
+      } else {
+        res.sendStatus(404).send()
+      }
     } catch (err) {
       console.error(err)
       res.send(err)
     }
   })
+
 const getTagsByNameApi = express
   .Router()
   .get(`/${constants.paths.apiGetTagByName}`, async (req, res) => {

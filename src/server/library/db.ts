@@ -69,3 +69,10 @@ export async function getTagsByName(id: string) {
   const result = collection.findOne({ _id: id })
   return (await result)?.tags
 }
+
+export async function getMusicFilePath(id: string) {
+  const collection = await dbManager.getMusicCollection()
+  const result = collection.findOne({ fileName: id })
+
+  return (await result)?.path
+}

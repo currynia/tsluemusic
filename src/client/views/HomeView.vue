@@ -11,16 +11,30 @@ import type { SongEntity } from '@/entities/SongEntity'
 const nowPlaying = ref<InstanceType<typeof NowPlaying>>()
 const playerControls = ref<InstanceType<typeof PlayerControls>>()
 const playListQueue = new Queue<SongEntity>()
+const onClickPlaylistCallback = (...q: SongEntity[]) => {
+  playListQueue.queue = q
+  playListQueue.incrCur()
+  playListQueue.updateQueueView()
+}
+
+const onEndedEmit = () => {
+  const head = playListQueue.popHead()
+  playListQueue.updateQueueView()
+  console.log(head)
+  if (head?.fileName && head?.name) {
+    nowPlaying?.value?.setNowPlaying(head.fileName, undefined, head.name)
+  }
+}
 </script>
 
 <template>
-  <div class="flex grow">
+  <div class="flex h-full w-full overflow-auto">
     <MenuComponent class="w-2/10" />
     <div class="flex flex-col w-full">
       <PlayList
         class="bg-base-100 h-full w-full rounded-none shadow-l-xl overflow-auto"
         @play-now="nowPlaying?.setNowPlaying"
-        :push-callback="playListQueue.push.bind(playListQueue)"
+        :on-click-playlist-callback="onClickPlaylistCallback"
       />
 
       <div class="bg-base-300 shadow-2xl grid grid-cols-6 grid-rows-1 h-1/8" ref="d">
@@ -29,6 +43,7 @@ const playListQueue = new Queue<SongEntity>()
           ref="nowPlaying"
           @time-update="playerControls?.setCurrentValue"
           @set-max-length="playerControls?.setMaxLength"
+          @song-ended="onEndedEmit"
         />
         <PlayerControls
           ref="playerControls"
@@ -38,6 +53,9 @@ const playListQueue = new Queue<SongEntity>()
         />
       </div>
     </div>
-    <QueueComponent class="w-2/10" :queue="playListQueue.queue" />
+    <QueueComponent
+      class="w-2/10 overflow-auto h-full max-h-full"
+      :queue="playListQueue.queueView"
+    />
   </div>
 </template>

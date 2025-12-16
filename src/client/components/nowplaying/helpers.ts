@@ -10,10 +10,13 @@ export const getTags = async (id: string) => {
   return await res.json()
 }
 
-export const lazyGetAudioBufferMimeType = async (fileName: string, fp: string) => {
+export const lazyGetAudioBufferMimeType = async (fileName: string, fp: string | undefined) => {
   const params = new URLSearchParams()
   params.append('fileName', fileName)
-  params.append('fp', fp)
+  if (fp) {
+    params.append('fp', fp)
+  }
+
   const res = await fetchData(
     `/${constants.paths.api}/${constants.paths.apiGetMusicFileBuffer}?${params}`,
   )
@@ -27,15 +30,6 @@ export const createBlob = (arrayBuffer: BlobPart, mimeType: string) => {
   return blob
 }
 
-export function base64ToArrayBuffer(base64: string) {
-  const binaryString = atob(base64)
-  const length = binaryString.length
-
-  const bytes = new Uint8Array(length)
-
-  for (let i = 0; i < length; i++) {
-    bytes[i] = binaryString.charCodeAt(i)
-  }
-
-  return bytes.buffer
+export function buildBase64ImgSrc(base64: string, mimeType: string) {
+  return 'data:' + mimeType + ';' + 'base64,' + base64
 }

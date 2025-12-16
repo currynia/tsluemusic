@@ -2,7 +2,6 @@
 import { onMounted, ref } from 'vue'
 import { constants } from '../../constants'
 import { fetchData } from './domUtils'
-import Queue from './queue/queue'
 import type { SongEntity } from '@/entities/SongEntity'
 
 export interface PlaylistObject {
@@ -13,12 +12,8 @@ const emit = defineEmits(['playNow'])
 const playlist = ref<PlaylistObject[]>()
 
 const props = defineProps<{
-  pushCallback: (...pl: SongEntity[]) => void
+  onClickPlaylistCallback: (...pl: SongEntity[]) => void
 }>()
-
-const sliceArrayAtIndex = <T,>(s: Array<T>, index: number) => {
-  return s.slice(index)
-}
 
 const onClickPlayback = (
   fileName: string,
@@ -29,7 +24,7 @@ const onClickPlayback = (
 ) => {
   emit('playNow', fileName, path, name)
   if (songs) {
-    props.pushCallback?.(...sliceArrayAtIndex(songs, index))
+    props.onClickPlaylistCallback?.(...songs.slice(index))
   }
 }
 
@@ -57,7 +52,7 @@ const dev = import.meta.env.DEV
       <li class="tab-content p-6 overflow-auto">TEST ITEM</li>
     </template>
 
-    <template v-for="(p, i) of playlist" :key="p.path">
+    <template v-for="p of playlist" :key="p.path">
       <input type="radio" name="my_tabs_6" class="tab" :aria-label="p.path" />
       <ul class="tab-content p-6 overflow-auto">
         <li
@@ -66,7 +61,7 @@ const dev = import.meta.env.DEV
               onClickPlayback(song.fileName, p.path, song.name, p.songs, i)
             }
           "
-          v-for="song in p.songs"
+          v-for="(song, i) in p.songs"
           :key="song.name"
         >
           {{ song.name }}
