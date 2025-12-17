@@ -62,7 +62,9 @@ const getAudioCurrentPosition = () => {
 }
 
 const setAudioPosition = (d: number) => {
-  if (audioRef.value) audioRef.value.currentTime = d
+  if (audioRef.value) {
+    audioRef.value.currentTime = d
+  }
 }
 
 onMounted(() => {
@@ -73,7 +75,6 @@ onMounted(() => {
     emit('setMaxLength', audioRef.value!.duration)
   })
   audioRef.value?.addEventListener('ended', () => {
-    console.log('test')
     emit('songEnded')
   })
 })

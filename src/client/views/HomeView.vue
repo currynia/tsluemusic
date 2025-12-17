@@ -12,6 +12,7 @@ const AUDIO_BACK_THRESHOLD = 3
 const nowPlaying = ref<InstanceType<typeof NowPlaying>>()
 const playerControls = ref<InstanceType<typeof PlayerControls>>()
 const playListQueue = new Queue<SongEntity>()
+const isSeeking = ref(false)
 
 const onClickPlaylistCallback = (...q: SongEntity[]) => {
   playListQueue.queue = q
@@ -27,13 +28,17 @@ const playNextInQueue = () => {
     nowPlaying?.value?.setNowPlaying(head.fileName, undefined, head.name)
   }
 }
-
+const onEmitSeeking = (v: number) => {
+  nowPlaying.value?.setAudioPosition(v)
+}
 const playPrevInQueue = () => {
   const prevHead = playListQueue.prevHead
   if (prevHead == null) {
+    playListQueue.cur++
     restartAudio()
     return
   }
+
   playListQueue.updateQueueView()
   if (prevHead?.fileName && prevHead?.name) {
     nowPlaying?.value?.setNowPlaying(prevHead.fileName, undefined, prevHead.name)
@@ -53,6 +58,12 @@ const onBackEmit = () => {
     }
   }
 }
+
+const onEmitTimeUpdate = (t: number) => {
+  if (!isSeeking.value) {
+    playerControls.value?.setCurrentValue(t)
+  }
+}
 </script>
 
 <template>
@@ -69,7 +80,7 @@ const onBackEmit = () => {
         <NowPlaying
           class="col-span-2"
           ref="nowPlaying"
-          @time-update="playerControls?.setCurrentValue"
+          @time-update="onEmitTimeUpdate"
           @set-max-length="playerControls?.setMaxLength"
           @song-ended="playNextInQueue"
         />
@@ -80,6 +91,8 @@ const onBackEmit = () => {
           @play-audio="nowPlaying?.playAudio"
           @forward="playNextInQueue"
           @back="onBackEmit"
+          @seeking="onEmitSeeking"
+          @is-seeking="isSeeking = true"
         />
       </div>
     </div>

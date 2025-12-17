@@ -6,9 +6,18 @@ import ForwardIcon from './icons/ForwardIcon.vue'
 import { ref } from 'vue'
 
 const MAX_VALUE = 1000
+const emit = defineEmits<{
+  pauseAudio: [void]
+  playAudio: [void]
+  back: [void]
+  forward: [void]
+  seeking: [number]
+  isSeeking: [void]
+}>()
 const normalise = (val: number, maxLength: number) => {
   return (val / maxLength) * 1000
 }
+
 const maxLength = ref<string>('100')
 const currentValue = ref<string>('0')
 
@@ -19,8 +28,15 @@ const setCurrentValue = (val: number) => {
 const setMaxLength = (val: number) => {
   maxLength.value = val.toString()
 }
+
+const unNormalise = (val: number, maxLength: number) => {
+  return (val / 1000) * maxLength
+}
+const emitSeeking = () => {
+  emit('seeking', unNormalise(parseInt(currentValue.value), parseInt(maxLength.value)))
+}
+
 defineExpose({ setMaxLength, setCurrentValue })
-defineEmits<{ pauseAudio: [void]; playAudio: [void]; back: [void]; forward: [void] }>()
 </script>
 
 <template>
@@ -31,6 +47,8 @@ defineEmits<{ pauseAudio: [void]; playAudio: [void]; back: [void]; forward: [voi
       :value="currentValue"
       type="range"
       class="range range-primary [--range-fill:0] range-xs w-full"
+      @change="emitSeeking"
+      @input="$emit('isSeeking')"
     />
 
     <ul
