@@ -60,7 +60,11 @@ const onBackEmit = () => {
   }
 }
 
-const onEmitTimeUpdate = (t: number) => {}
+const onEmitTimeUpdate = (t: number) => {
+  if (!isSeeking.value) {
+    playerControls.value?.setCurrentValue(t)
+  }
+}
 </script>
 
 <template>
