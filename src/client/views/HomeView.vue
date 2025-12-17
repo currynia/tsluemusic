@@ -75,6 +75,14 @@ const onEmitTimeUpdate = (t: number) => {
         class="bg-base-100 h-full w-full rounded-none shadow-l-xl overflow-auto"
         @play-now="nowPlaying?.setNowPlaying"
         :on-click-playlist-callback="onClickPlaylistCallback"
+        :get-now-playing-title="
+          () => {
+            if (nowPlaying) {
+              return nowPlaying.gewNowPlayingTitle()
+            }
+            return ref('')
+          }
+        "
       />
 
       <div class="bg-base-300 shadow-2xl grid grid-cols-6 grid-rows-1 h-1/8" ref="d">

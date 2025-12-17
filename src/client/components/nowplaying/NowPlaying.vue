@@ -78,8 +78,17 @@ onMounted(() => {
     emit('songEnded')
   })
 })
-
-defineExpose({ setNowPlaying, pauseAudio, playAudio, getAudioCurrentPosition, setAudioPosition })
+const gewNowPlayingTitle = () => {
+  return title
+}
+defineExpose({
+  setNowPlaying,
+  pauseAudio,
+  playAudio,
+  getAudioCurrentPosition,
+  setAudioPosition,
+  gewNowPlayingTitle,
+})
 </script>
 
 <template>

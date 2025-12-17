@@ -29,8 +29,6 @@ class Queue<T> {
   }
 
   push(...items: T[]) {
-    console.log(this.queue)
-
     this.queue.push(...items)
     return this.queue
   }
