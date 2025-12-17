@@ -30,6 +30,7 @@ const playNextInQueue = () => {
 }
 const onEmitSeeking = (v: number) => {
   nowPlaying.value?.setAudioPosition(v)
+  isSeeking.value = false
 }
 const playPrevInQueue = () => {
   const prevHead = playListQueue.prevHead
@@ -59,11 +60,7 @@ const onBackEmit = () => {
   }
 }
 
-const onEmitTimeUpdate = (t: number) => {
-  if (!isSeeking.value) {
-    playerControls.value?.setCurrentValue(t)
-  }
-}
+const onEmitTimeUpdate = (t: number) => {}
 </script>
 
 <template>

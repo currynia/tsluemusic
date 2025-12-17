@@ -18,22 +18,22 @@ const normalise = (val: number, maxLength: number) => {
   return (val / maxLength) * 1000
 }
 
-const maxLength = ref<string>('100')
-const currentValue = ref<string>('0')
+const maxLength = ref(100)
+const currentValue = ref(0)
 
 const setCurrentValue = (val: number) => {
-  currentValue.value = normalise(val, parseInt(maxLength.value)).toString()
+  currentValue.value = normalise(val, maxLength.value)
 }
 
 const setMaxLength = (val: number) => {
-  maxLength.value = val.toString()
+  maxLength.value = val
 }
 
 const unNormalise = (val: number, maxLength: number) => {
   return (val / 1000) * maxLength
 }
 const emitSeeking = () => {
-  emit('seeking', unNormalise(parseInt(currentValue.value), parseInt(maxLength.value)))
+  emit('seeking', unNormalise(currentValue.value, maxLength.value))
 }
 
 defineExpose({ setMaxLength, setCurrentValue })
@@ -44,7 +44,7 @@ defineExpose({ setMaxLength, setCurrentValue })
     <input
       min="0"
       :max="MAX_VALUE"
-      :value="currentValue"
+      v-model="currentValue"
       type="range"
       class="range range-primary [--range-fill:0] range-xs w-full"
       @change="emitSeeking"
