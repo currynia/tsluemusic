@@ -3,40 +3,43 @@ import PauseIcon from './icons/PauseIcon.vue'
 import PlayIcon from './icons/PlayIcon.vue'
 import BackIcon from './icons/BackIcon.vue'
 import ForwardIcon from './icons/ForwardIcon.vue'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
+import { audioState } from '@/state/audioState'
 
 const MAX_VALUE = 1000
 const emit = defineEmits<{
-  pauseAudio: [void]
-  playAudio: [void]
   back: [void]
   forward: [void]
-  seeking: [number]
-  isSeeking: [void]
 }>()
 const normalise = (val: number, maxLength: number) => {
-  return (val / maxLength) * 1000
+  return (val / maxLength) * MAX_VALUE
+}
+const unNormalise = (val: number, maxLength: number) => {
+  return (val / MAX_VALUE) * maxLength
 }
 
 const maxLength = ref(100)
 const currentValue = ref(0)
+const isSeeking = ref(false)
 
-const setCurrentValue = (val: number) => {
-  currentValue.value = normalise(val, maxLength.value)
+const seek = () => {
+  audioState.setCurrentTime(unNormalise(currentValue.value, maxLength.value))
+  isSeeking.value = false
 }
 
-const setMaxLength = (val: number) => {
-  maxLength.value = val
+const onInput = () => {
+  isSeeking.value = true
 }
 
-const unNormalise = (val: number, maxLength: number) => {
-  return (val / 1000) * maxLength
-}
-const emitSeeking = () => {
-  emit('seeking', unNormalise(currentValue.value, maxLength.value))
-}
-
-defineExpose({ setMaxLength, setCurrentValue })
+onMounted(() => {
+  audioState.addEventListener('timeupdate', () => {
+    if (!isSeeking.value)
+      currentValue.value = normalise(audioState.getCurrentTime(), maxLength.value)
+  })
+  audioState.addEventListener('loadedmetadata', () => {
+    maxLength.value = audioState.getAudioLength()
+  })
+})
 </script>
 
 <template>
@@ -47,18 +50,18 @@ defineExpose({ setMaxLength, setCurrentValue })
       v-model="currentValue"
       type="range"
       class="range range-primary [--range-fill:0] range-xs w-full"
-      @change="emitSeeking"
-      @input="$emit('isSeeking')"
+      @change="seek"
+      @input="onInput"
     />
 
     <ul
       class="menu menu-horizontal self-center rounded-box grid p-0 grid-rows-1 grid-cols-4 w-9/20 min-h-0"
     >
-      <li id="pause" @click="$emit('pauseAudio')">
+      <li id="pause" @click="audioState.pauseAudio">
         <PauseIcon class="text-base-content" />
       </li>
 
-      <li id="play" @click="$emit('playAudio')">
+      <li id="play" @click="audioState.playAudio">
         <PlayIcon class="text-base-content" />
       </li>
 

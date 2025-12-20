@@ -4,15 +4,14 @@ import NowPlaying from '../components/nowplaying/NowPlaying.vue'
 import PlayerControls from '../components/PlayerControls.vue'
 import PlayList from '../components/PlayList.vue'
 import MenuComponent from '@/components/MenuComponenet.vue'
-import Queue from '@/components/queue/queue'
+import Queue from '@/state/queue/queue'
 import QueueComponent from '@/components/queue/SongQueueComponent.vue'
 import type { SongEntity } from '@/entities/SongEntity'
 
 const AUDIO_BACK_THRESHOLD = 3
 const nowPlaying = ref<InstanceType<typeof NowPlaying>>()
-const playerControls = ref<InstanceType<typeof PlayerControls>>()
+
 const playListQueue = new Queue<SongEntity>()
-const isSeeking = ref(false)
 
 const onClickPlaylistCallback = (...q: SongEntity[]) => {
   playListQueue.queue = q
@@ -28,10 +27,7 @@ const playNextInQueue = () => {
     nowPlaying?.value?.setNowPlaying(head.fileName, undefined, head.name)
   }
 }
-const onEmitSeeking = (v: number) => {
-  nowPlaying.value?.setAudioPosition(v)
-  isSeeking.value = false
-}
+
 const playPrevInQueue = () => {
   const prevHead = playListQueue.prevHead
   if (prevHead == null) {
@@ -59,12 +55,6 @@ const onBackEmit = () => {
     }
   }
 }
-
-const onEmitTimeUpdate = (t: number) => {
-  if (!isSeeking.value) {
-    playerControls.value?.setCurrentValue(t)
-  }
-}
 </script>
 
 <template>
@@ -86,22 +76,12 @@ const onEmitTimeUpdate = (t: number) => {
       />
 
       <div class="bg-base-300 shadow-2xl grid grid-cols-6 grid-rows-1 h-1/8" ref="d">
-        <NowPlaying
-          class="col-span-2"
-          ref="nowPlaying"
-          @time-update="onEmitTimeUpdate"
-          @set-max-length="playerControls?.setMaxLength"
-          @song-ended="playNextInQueue"
-        />
+        <NowPlaying class="col-span-2" ref="nowPlaying" @song-ended="playNextInQueue" />
         <PlayerControls
           ref="playerControls"
           class="col-start-3 col-end-5"
-          @pause-audio="nowPlaying?.pauseAudio"
-          @play-audio="nowPlaying?.playAudio"
           @forward="playNextInQueue"
           @back="onBackEmit"
-          @seeking="onEmitSeeking"
-          @is-seeking="isSeeking = true"
         />
       </div>
     </div>

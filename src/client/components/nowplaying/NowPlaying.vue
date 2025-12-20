@@ -3,16 +3,15 @@ import { onMounted, ref } from 'vue'
 import { type ICommonTagsResult } from 'music-metadata'
 import { lazyGetAudioBufferMimeType, createBlob, getTags, buildBase64ImgSrc } from './helpers'
 import MarqueeComponent from './MarqueeComponent.vue'
+import { audioState } from '@/state/audioState'
 
-const audioRef = ref<HTMLAudioElement>()
+const audioRef = audioState.audioRef
 const tagRef = ref<ICommonTagsResult>()
 const imgRef = ref<HTMLImageElement>()
 const title = ref('')
 const artist = ref('')
 
 const emit = defineEmits<{
-  timeUpdate: [number]
-  setMaxLength: [number]
   songEnded: [void]
 }>()
 
@@ -49,31 +48,7 @@ const setNowPlaying = async (fileName: string, fp: string | undefined, name: str
   }
 }
 
-const pauseAudio = () => {
-  audioRef.value?.pause()
-}
-
-const playAudio = () => {
-  audioRef.value?.play()
-}
-
-const getAudioCurrentPosition = () => {
-  return audioRef.value?.currentTime || 0
-}
-
-const setAudioPosition = (d: number) => {
-  if (audioRef.value) {
-    audioRef.value.currentTime = d
-  }
-}
-
 onMounted(() => {
-  audioRef.value?.addEventListener('timeupdate', () => {
-    emit('timeUpdate', audioRef.value!.currentTime)
-  })
-  audioRef.value?.addEventListener('loadedmetadata', () => {
-    emit('setMaxLength', audioRef.value!.duration)
-  })
   audioRef.value?.addEventListener('ended', () => {
     emit('songEnded')
   })
@@ -83,10 +58,7 @@ const gewNowPlayingTitle = () => {
 }
 defineExpose({
   setNowPlaying,
-  pauseAudio,
-  playAudio,
-  getAudioCurrentPosition,
-  setAudioPosition,
+
   gewNowPlayingTitle,
 })
 </script>
