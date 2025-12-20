@@ -10,7 +10,7 @@ export const getTags = async (id: string) => {
   return await res.json()
 }
 
-export const lazyGetAudioBufferMimeType = async (fileName: string, fp: string | undefined) => {
+export const lazyGetAudioBufferMimeType = async (fileName: string, fp?: string) => {
   const params = new URLSearchParams()
   params.append('fileName', fileName)
   if (fp) {
@@ -28,8 +28,4 @@ export const lazyGetAudioBufferMimeType = async (fileName: string, fp: string | 
 export const createBlob = (arrayBuffer: BlobPart, mimeType: string) => {
   const blob = new Blob([arrayBuffer], { type: mimeType })
   return blob
-}
-
-export function buildBase64ImgSrc(base64: string, mimeType: string) {
-  return 'data:' + mimeType + ';' + 'base64,' + base64
 }

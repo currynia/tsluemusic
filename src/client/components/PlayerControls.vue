@@ -4,13 +4,11 @@ import PlayIcon from './icons/PlayIcon.vue'
 import BackIcon from './icons/BackIcon.vue'
 import ForwardIcon from './icons/ForwardIcon.vue'
 import { onMounted, ref } from 'vue'
-import { audioState } from '@/state/audioState'
+import { audioState } from '@/state/audio/audioState'
+import { playNextInQueue } from '@/control/audioControl'
 
 const MAX_VALUE = 1000
-const emit = defineEmits<{
-  back: [void]
-  forward: [void]
-}>()
+
 const normalise = (val: number, maxLength: number) => {
   return (val / maxLength) * MAX_VALUE
 }
@@ -66,11 +64,11 @@ onMounted(() => {
       </li>
 
       <li id="back">
-        <BackIcon class="text-base-content" @click="$emit('back')" />
+        <BackIcon class="text-base-content" @click="playNextInQueue()" />
       </li>
 
       <li id="forward">
-        <ForwardIcon class="text-base-content" @click="$emit('forward')" />
+        <ForwardIcon class="text-base-content" @click="playNextInQueue()" />
       </li>
     </ul>
   </div>

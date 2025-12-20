@@ -4,30 +4,25 @@ import { constants } from '../../constants'
 import { fetchData } from './domUtils'
 import type { SongEntity } from '@/entities/SongEntity'
 import MusicIcon from './icons/MusicIcon.vue'
-
+import { audioState } from '@/state/audio/audioState'
+import { playlistQueueState } from '@/state/queue/queueState'
+import { playNextInQueue } from '@/control/audioControl'
 export interface PlaylistObject {
   path?: string
   songs?: SongEntity[]
 }
-const emit = defineEmits(['playNow'])
+
 const playlist = ref<PlaylistObject[]>()
 
-const props = defineProps<{
-  onClickPlaylistCallback: (...pl: SongEntity[]) => void
-  getNowPlayingTitle: () => Ref<string>
-}>()
+const replaceQueue = (songs: SongEntity[]) => {
+  playlistQueueState.replaceQueue(...songs)
+}
 
-const onClickPlayback = (
-  fileName: string,
-  path: string | undefined,
-  name: string,
-  songs: SongEntity[] | undefined,
-  index: number,
-) => {
-  emit('playNow', fileName, path, name)
+const onClickPlayback = async (songs: SongEntity[] | undefined, index: number) => {
   if (songs) {
-    props.onClickPlaylistCallback?.(...songs.slice(index))
+    replaceQueue(songs.slice(index))
   }
+  playNextInQueue()
 }
 
 const getPlaylist = async () => {
@@ -41,7 +36,7 @@ onMounted(async () => {
 })
 
 const isSongNowPlaying = (s: string) => {
-  return props.getNowPlayingTitle().value == s
+  return audioState.refs.titleRef.value == s
 }
 
 const dev = import.meta.env.DEV
@@ -65,11 +60,7 @@ const dev = import.meta.env.DEV
           <div
             v-for="(song, i) in p.songs"
             :key="song.name"
-            @click="
-              () => {
-                onClickPlayback(song.fileName, p.path, song.name, p.songs, i)
-              }
-            "
+            @click="onClickPlayback(p.songs, i)"
             class="flex min-h-1/20 max-h-1/20 overflow-clip gap-3"
           >
             <div
