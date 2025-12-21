@@ -12,7 +12,7 @@ export const playlistQueueState = (() => {
       playlistQueue.queue = q
       console.log(playlistQueue.queue)
     },
-    updateQueueView: playlistQueue.updateQueueView,
+    updateQueueView: () => playlistQueue.updateQueueView(),
     setCur: (c: number) => {
       playlistQueue.cur = c
     },
@@ -24,5 +24,7 @@ export const playlistQueueState = (() => {
     },
     getCur: () => playlistQueue.cur,
     popHead: () => playlistQueue.popHead(),
+    rewindHead: () => playlistQueue.prevHead,
+    head: () => playlistQueue.head,
   }
 })()

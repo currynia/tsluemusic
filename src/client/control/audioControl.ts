@@ -7,4 +7,11 @@ export const playNextInQueue = async () => {
     await audioState.setAudio(head.fileName, head.name)
     audioState.playAudio()
   }
+  playlistQueueState.updateQueueView()
+}
+
+export const playPrevInQueue = async () => {
+  playlistQueueState.rewindHead()
+  playlistQueueState.rewindHead()
+  playNextInQueue()
 }

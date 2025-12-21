@@ -57,5 +57,11 @@ export const audioState = (() => {
       if (audioRef.value) audioRef.value.currentTime = t
     },
     setAudio,
+    restartAudio: function () {
+      if (audioRef.value) {
+        audioRef.value.currentTime = 0
+        this.playAudio()
+      }
+    },
   }
 })()

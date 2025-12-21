@@ -5,7 +5,7 @@ import BackIcon from './icons/BackIcon.vue'
 import ForwardIcon from './icons/ForwardIcon.vue'
 import { onMounted, ref } from 'vue'
 import { audioState } from '@/state/audio/audioState'
-import { playNextInQueue } from '@/control/audioControl'
+import { playNextInQueue, playPrevInQueue } from '@/control/audioControl'
 
 const MAX_VALUE = 1000
 
@@ -64,7 +64,7 @@ onMounted(() => {
       </li>
 
       <li id="back">
-        <BackIcon class="text-base-content" @click="playNextInQueue()" />
+        <BackIcon class="text-base-content" @click="playPrevInQueue()" />
       </li>
 
       <li id="forward">

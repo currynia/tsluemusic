@@ -34,7 +34,6 @@ class Queue<T> {
   }
 
   popHead() {
-    console.log(this.queue)
     const head = this.queue[this.cur]
     this.cur++
     return head
