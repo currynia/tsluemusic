@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, type Ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { constants } from '../../constants'
 import { fetchData } from './domUtils'
 import type { SongEntity } from '@/entities/SongEntity'

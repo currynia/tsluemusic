@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { SongEntity } from '@/entities/SongEntity'
-import { ref, type Ref } from 'vue'
-const props = defineProps<{ queue: Ref<SongEntity[]> }>()
+import { type Ref } from 'vue'
+defineProps<{ queue: Ref<SongEntity[]> }>()
 const dev = import.meta.env.DEV
 </script>
 

@@ -2,15 +2,12 @@
 import { onMounted } from 'vue'
 import MarqueeComponent from './MarqueeComponent.vue'
 import { audioState } from '@/state/audio/audioState'
+import { playNextInQueue } from '@/control/audioControl'
 
 const audioRef = audioState.refs.audioRef
 const title = audioState.refs.titleRef
 const artist = audioState.refs.artistRef
 const imgB64 = audioState.refs.imgRefB64
-
-const emit = defineEmits<{
-  songEnded: [void]
-}>()
 
 function buildBase64ImgSrc(base64: string, mimeType: string) {
   return 'data:' + mimeType + ';' + 'base64,' + base64
@@ -24,7 +21,7 @@ const setSrc = () => {
 
 onMounted(() => {
   audioRef.value?.addEventListener('ended', () => {
-    emit('songEnded')
+    playNextInQueue()
   })
 })
 </script>
