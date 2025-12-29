@@ -2,15 +2,12 @@
 import NowPlaying from '../components/nowplaying/NowPlaying.vue'
 import PlayerControls from '../components/PlayerControls.vue'
 import PlayList from '../components/PlayList.vue'
-import MenuComponent from '@/components/MenuComponenet.vue'
 import { playlistQueueState } from '@/state/queue/queueState'
 import QueueComponent from '@/components/queue/QueueComponent.vue'
 </script>
 
 <template>
   <div class="flex h-full w-full overflow-auto">
-    <MenuComponent class="w-2/10" />
-
     <div class="flex flex-col w-full">
       <PlayList class="bg-base-100 h-full w-full rounded-none shadow-l-xl overflow-auto" />
 
