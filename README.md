@@ -1,48 +1,30 @@
-# ./
+# Tsulemusic
 
-This template should help get you started developing with Vue 3 in Vite.
+A music player that serves music from your local directory.
 
-## Recommended IDE Setup
+![screenshot](image-1.png)
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## Building
 
-## Recommended Browser Setup
+Requirements:
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) 
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+1. MongoDB
+2. Node.js
 
-## Type Support for `.vue` Imports in TS
+Install dependencies:
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+`npm install`
 
-## Customize configuration
+Modify `.env.example` and rename to `.env`
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+Build client:
 
-## Project Setup
+`npm run build`
 
-```sh
-npm install
-```
+Start MongoDB (if necessary):
 
-### Compile and Hot-Reload for Development
+`systemctl start mongod`
 
-```sh
-npm run dev
-```
+Start server:
 
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+`npm run server`
