@@ -14,7 +14,8 @@
     "type-check": "vue-tsc --build",
     "lint": "eslint . --fix --cache",
     "format": "prettier --write --experimental-cli src/",
-    "server": "tsc -p tsconfig.server.json && node dist/server/main.js"
+    "server": "tsc -p tsconfig.server.json && node dist/server/main.js",
+    "all": "npm run build && npm run server"
   },
   "dependencies": {
     "dotenv": "^17.2.3",
