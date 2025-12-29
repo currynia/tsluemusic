@@ -10,7 +10,6 @@ export const playlistQueueState = (() => {
     replaceQueue: (...q: SongEntity[]) => {
       playlistQueue.cur = 0
       playlistQueue.queue = q
-      console.log(playlistQueue.queue)
     },
     updateQueueView: () => playlistQueue.updateQueueView(),
     setCur: (c: number) => {

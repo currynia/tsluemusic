@@ -21,7 +21,7 @@ import QueueComponent from '@/components/queue/QueueComponent.vue'
     </div>
 
     <QueueComponent
-      class="w-2/10 overflow-auto h-full max-h-full"
+      class="w-2/10 overflow-y-scroll h-full max-h-full"
       :queue="playlistQueueState.playlistQueueView"
     />
   </div>

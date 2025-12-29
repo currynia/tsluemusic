@@ -8,12 +8,6 @@
     xml:space="preserve"
     fill="currentColor"
   >
-    <style type="text/css">
-      .st0 {
-        fill-rule: evenodd;
-        clip-rule: evenodd;
-      }
-    </style>
     <g>
       <path
         class="st0"
