@@ -6,6 +6,7 @@
     xmlns:xlink="http://www.w3.org/1999/xlink"
     viewBox="0 0 104.23 122.88"
     xml:space="preserve"
+    fill="currentColor"
   >
     <style type="text/css">
       .st0 {

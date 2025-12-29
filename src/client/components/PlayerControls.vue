@@ -19,7 +19,7 @@ const unNormalise = (val: number, maxLength: number) => {
 const maxLength = ref(100)
 const currentValue = ref(0)
 const isSeeking = ref(false)
-
+const isPlaying = audioState.isPlaying
 const seek = () => {
   audioState.setCurrentTime(unNormalise(currentValue.value, maxLength.value))
   isSeeking.value = false
@@ -41,34 +41,36 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="max-h-full flex flex-col mt-3 gap-1">
-    <input
-      min="0"
-      :max="MAX_VALUE"
-      v-model="currentValue"
-      type="range"
-      class="range range-primary [--range-fill:0] range-xs w-full"
-      @change="seek"
-      @input="onInput"
-    />
+  <div class="max-h-full flex flex-col gap-3 mt-1">
+    <div class="w-full">
+      <input
+        min="0"
+        :max="MAX_VALUE"
+        v-model="currentValue"
+        type="range"
+        class="range range-primary [--range-fill:0] range-xs w-full h-full"
+        @change="seek"
+        @input="onInput"
+      />
+    </div>
 
     <ul
-      class="menu menu-horizontal self-center rounded-box grid p-0 grid-rows-1 grid-cols-4 w-9/20 min-h-0"
+      class="menu menu-horizontal rounded-box justify-center w-full h-full text-base-content p-0 gap-3"
     >
-      <li id="pause" @click="audioState.pauseAudio">
-        <PauseIcon class="text-base-content" />
+      <li id="pause" @click="audioState.pauseAudio" v-show="isPlaying" class="h-full w-auto">
+        <PauseIcon class="p-0" />
       </li>
 
-      <li id="play" @click="audioState.playAudio">
-        <PlayIcon class="text-base-content" />
+      <li id="play" @click="audioState.playAudio" v-show="!isPlaying" class="h-full w-auto">
+        <PlayIcon class="p-0" />
       </li>
 
-      <li id="back">
-        <BackIcon class="text-base-content" @click="playPrevInQueue()" />
+      <li id="back" @click="playPrevInQueue()" class="h-full w-auto">
+        <BackIcon class="p-0" />
       </li>
 
-      <li id="forward">
-        <ForwardIcon class="text-base-content" @click="playNextInQueue()" />
+      <li id="forward" @click="playNextInQueue()" class="h-full w-auto">
+        <ForwardIcon class="p-0" />
       </li>
     </ul>
   </div>

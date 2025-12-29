@@ -32,6 +32,7 @@ onMounted(() => {
       class="object-cover aspect-square h-full"
       :src="setSrc()"
       alt="Image could not be displayed"
+      v-show="title != ''"
     />
     <div class="block overflow-auto mt-1.5 ml-1.5 mr-1.5">
       <MarqueeComponent>

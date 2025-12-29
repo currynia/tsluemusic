@@ -1,12 +1,9 @@
 <template>
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    fill="currentColor"
-    class="bi bi-stop-fill"
-    viewBox="0 0 16 16"
-  >
+  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-6 h-6">
     <path
-      d="M5 3.5h6A1.5 1.5 0 0 1 12.5 5v6a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 11V5A1.5 1.5 0 0 1 5 3.5"
+      fill-rule="evenodd"
+      d="M8 5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H8Zm7 0a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1Z"
+      clip-rule="evenodd"
     />
   </svg>
 </template>

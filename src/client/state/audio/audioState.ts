@@ -9,6 +9,7 @@ export const audioState = (() => {
 
   const artistRef = ref('')
   const titleRef = ref('')
+  const isPlaying = ref(false)
 
   const setImg = () => {
     imgRefB64.value = {
@@ -46,8 +47,14 @@ export const audioState = (() => {
 
   return {
     refs: { audioRef, imgRefB64, titleRef, artistRef },
-    pauseAudio: () => audioRef.value?.pause(),
-    playAudio: () => audioRef.value?.play(),
+    pauseAudio: () => {
+      audioRef.value?.pause()
+      isPlaying.value = false
+    },
+    playAudio: () => {
+      audioRef.value?.play()
+      isPlaying.value = true
+    },
     addEventListener: (e: string, cb: () => void) => {
       audioRef.value?.addEventListener(e, cb)
     },
@@ -63,5 +70,6 @@ export const audioState = (() => {
         this.playAudio()
       }
     },
+    isPlaying,
   }
 })()

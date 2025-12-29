@@ -14,7 +14,7 @@ export const startServer = () => {
 
   server.use('/api', apiRouter)
 
-  server.listen(port, () => {
-    console.log(`App listening on port http://127.0.0.1:${port}`)
+  server.listen(port, '0.0.0.0', () => {
+    console.log(`App listening on port http://0.0.0.0:${port}`)
   })
 }

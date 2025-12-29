@@ -10,14 +10,16 @@ import QueueComponent from '@/components/queue/QueueComponent.vue'
 <template>
   <div class="flex h-full w-full overflow-auto">
     <MenuComponent class="w-2/10" />
+
     <div class="flex flex-col w-full">
       <PlayList class="bg-base-100 h-full w-full rounded-none shadow-l-xl overflow-auto" />
 
-      <div class="bg-base-300 shadow-2xl grid grid-cols-6 grid-rows-1 h-1/8" ref="d">
+      <div class="bg-base-300 shadow-2xl grid grid-cols-6 grid-rows-1 h-1/8 max-h-1/8 min-h-1/8">
         <NowPlaying class="col-span-2" ref="nowPlaying" />
         <PlayerControls ref="playerControls" class="col-start-3 col-end-5" />
       </div>
     </div>
+
     <QueueComponent
       class="w-2/10 overflow-auto h-full max-h-full"
       :queue="playlistQueueState.playlistQueueView"
