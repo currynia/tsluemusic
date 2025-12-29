@@ -17,7 +17,11 @@ const getMusicFileBufferApi = express
       const fp = req.query.fp?.toString() || (await getMusicFilePath(fileName))
 
       if (fp) {
-        res.type(getMimeType(fileName, fp)).send(await getMusicFileBuffer(fileName, fp))
+        const musicFileBuffer = await getMusicFileBuffer(fileName, fp)
+
+        res
+          .type((await getMimeType(fileName, fp, musicFileBuffer as ArrayBuffer)) || 'audio/mpeg')
+          .send(Buffer.from(musicFileBuffer as ArrayBuffer))
       } else {
         res.sendStatus(404).send()
       }

@@ -1,10 +1,12 @@
 import fs, { Dirent } from 'fs'
 import path from 'path'
-
 import { writeMusicTags } from './db.js'
 import { MusicObj } from './MusicObj.js'
 import { IAudioMetadata, parseFile } from 'music-metadata'
 import * as mime from 'mime-types'
+import { getFile } from './gdrive/driveApi.js'
+import { arrayBuffer } from 'stream/consumers'
+import { fileTypeFromBuffer } from 'file-type'
 
 const directory: string = process.env.MUSIC_DIRECTORY!
 const extensions = ['.mp3', '.flac', '.wav', '.ogg']
@@ -52,9 +54,13 @@ export async function writeMusicTagsToDB() {
 }
 
 export function getMusicFileBuffer(fileName: string, fp: string) {
-  return fs.promises.readFile(path.join(directory, fp, fileName))
+  return getFile(fileName, fp)
+  // return fs.promises.readFile(path.join(directory, fp, fileName))
 }
 
-export function getMimeType(fileName: string, fp: string) {
+export async function getMimeType(fileName: string, fp: string, buffer?: ArrayBuffer) {
+  if (buffer) {
+    return (await fileTypeFromBuffer(buffer))?.mime
+  }
   return mime.lookup(path.join(directory, fp, fileName)) || 'audio/mpeg'
 }

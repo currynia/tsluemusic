@@ -1,7 +1,11 @@
 import { Collection, Db, MongoClient } from 'mongodb'
 import { MusicObj } from './MusicObj.js'
 
-const uri = 'mongodb://localhost:27017/musicDatabase'
+const password = encodeURIComponent(process.env.MONGODB_PASSWORD!)
+const uri = (process.env.MONGODB_URI! + 'appName=' + process.env.MOONGODB_APPNAME).replace(
+  '<db_password>',
+  password,
+)
 
 interface DBInterface {
   getDB: () => Promise<Db>
@@ -12,6 +16,7 @@ export const dbManager = (function (): DBInterface {
   let db: Db
   async function initClient() {
     const client = new MongoClient(uri)
+
     try {
       await client.connect()
       console.log('Connected successfully to MongoDB server')

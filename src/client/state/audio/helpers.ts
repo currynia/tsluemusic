@@ -20,6 +20,7 @@ export const lazyGetAudioBufferMimeType = async (fileName: string, fp?: string) 
   const res = await fetchData(
     `/${constants.paths.api}/${constants.paths.apiGetMusicFileBuffer}?${params}`,
   )
+
   return async () => ({
     buffer: await res.arrayBuffer(),
     mimeType: res.headers.get('content-type') || 'audio/mpeg',
