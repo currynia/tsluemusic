@@ -46,7 +46,9 @@ const dev = import.meta.env.DEV
   <div class="tabs tabs-box">
     <template v-if="dev">
       <input type="radio" name="my_tabs_6" class="tab" aria-label="Test Menu" />
-      <li class="tab-content p-6 overflow-auto">TEST ITEM</li>
+      <li class="tab-content p-6 overflow-auto">
+        <div class="hover:bg-base-200">TEST ITEM</div>
+      </li>
       <input type="radio" name="my_tabs_6" class="tab" aria-label="Test Menu" />
       <li class="tab-content p-6 overflow-auto">TEST ITEM</li>
       <input type="radio" name="my_tabs_6" class="tab" aria-label="Test Menu" />
@@ -61,7 +63,7 @@ const dev = import.meta.env.DEV
             v-for="(song, i) in p.songs"
             :key="song.name"
             @click="onClickPlayback(p.songs, i)"
-            class="flex min-h-1/20 max-h-1/20 overflow-clip gap-3"
+            class="flex min-h-1/20 max-h-1/20 overflow-clip gap-3 cursor-pointer hover:bg-base-200"
           >
             <div
               v-if="isSongNowPlaying(song.name)"

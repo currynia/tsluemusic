@@ -37,7 +37,23 @@ export const dbManager = (function (): DBInterface {
 export async function writeMusicTags(musictag: MusicObj[]) {
   try {
     const collection = await dbManager.getMusicCollection()
-    collection.insertMany(musictag)
+    const bulkUpdate = musictag.map((tag) => {
+      return {
+        updateOne: {
+          filter: { _id: tag._id },
+          update: {
+            $set: {
+              tags: tag.tags,
+              path: tag.path,
+              fileName: tag.fileName,
+            },
+          },
+          upsert: true,
+        },
+      }
+    })
+    //collection.insertMany(musictag)
+    await collection.bulkWrite(bulkUpdate)
   } catch (err) {
     console.error(err)
   }
@@ -45,7 +61,7 @@ export async function writeMusicTags(musictag: MusicObj[]) {
 
 export async function dropDatabase() {
   const db = await dbManager.getDB()
-  db.dropDatabase()
+  await db.dropDatabase()
 }
 
 export async function getAllMusicFiles() {

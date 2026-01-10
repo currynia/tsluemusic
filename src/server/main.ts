@@ -12,5 +12,6 @@ const main = () => {
   startServer()
 }
 
-await dropDatabase()
+//debug only
+//await dropDatabase()
 main()

@@ -4,7 +4,7 @@ import { apiRouter } from './routes/api.js'
 
 export const startServer = () => {
   const server = express()
-  const port = 50000
+  const port = 3001
 
   server.use(express.static(path.join('dist', 'client')))
 
